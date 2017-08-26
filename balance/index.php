@@ -1,5 +1,5 @@
 <?php
-  require '../bca-finhacks-2017.phar';
+  require '../application/libraries/bca-finhacks-2017.phar';
 
   try {
     // Using the library to do API request

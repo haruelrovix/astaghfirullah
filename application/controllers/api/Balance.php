@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 /** @noinspection PhpIncludeInspection */
 require APPPATH . '/libraries/REST_Controller.php';
-require '../../../bca-finhacks-2017.phar';
+require '/libraries/bca-finhacks-2017.phar';
 
 // use namespace
 use Restserver\Libraries\REST_Controller;
