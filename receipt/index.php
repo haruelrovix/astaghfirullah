@@ -113,8 +113,8 @@
                             </td>
                             
                             <td>
-                                <?php echo $_GET['corporateId']; ?><br>
-                                <?php echo $_GET['source']; ?>
+                                Corporate Id: <?php echo $_GET['corporateId']; ?><br>
+                                Source Account: <?php echo $_GET['source']; ?>
                             </td>
                         </tr>
                     </table>
