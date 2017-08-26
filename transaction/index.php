@@ -1,6 +1,7 @@
 <?php
   require '../application/libraries/bca-finhacks-2017.phar';
 
+  $result = array();
   try {
     // Using the library to do API request
     $builder = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApiConfigBuilder();
@@ -21,7 +22,8 @@
     $params->setStartDate('2017-08-20');
     $params->setEndDate('2017-08-28');
 
-    $response = $businessBankingApi->getStatement('8220000053', $params);
+    $accountNumber = $_GET['account'];
+    $response = $businessBankingApi->getStatement($accountNumber, $params);
 
     $transactions = array();
     foreach ($response->getData() as $data) {
@@ -43,12 +45,14 @@
       'StartBalance' => $response->getStartBalance(),
       'Data' => $transactions
     );
-
-    echo json_encode($result);
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
-    echo $e->getBody()->getErrorCode();
-    echo $e->getBody()->getErrorMessage()->getEnglish();
-    echo $e->getBody()->getErrorMessage()->getIndonesian();
+    $result = array(
+      'ErrorCode' => $e->getBody()->getErrorCode(),
+      'English' => $e->getBody()->getErrorMessage()->getEnglish(),
+      'Indonesian' => $e->getBody()->getErrorMessage()->getIndonesian()
+    );
   }
+
+  echo json_encode($result);
 ?>

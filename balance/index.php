@@ -44,11 +44,11 @@
     }
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
-    array_push($result, array(
+    $result = array(
       'ErrorCode' => $e->getBody()->getErrorCode(),
       'English' => $e->getBody()->getErrorMessage()->getEnglish(),
       'Indonesian' => $e->getBody()->getErrorMessage()->getIndonesian()
-    ));
+    );
   }
 
   echo json_encode($result);
