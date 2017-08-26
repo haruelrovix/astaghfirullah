@@ -1,5 +1,5 @@
 <?php
-  require '../application/libraries/bca-finhacks-2017.phar';
+  require '../libraries/bca-finhacks-2017.phar';
 
   $result = array();
   try {
