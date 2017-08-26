@@ -19,13 +19,13 @@
 
     $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
     $payload->setSourceAccountNumber('8220000053');
-    $payload->setTransactionID('00000003');
+    $payload->setTransactionID('00000004');
     $payload->setTransactionDate('2017-08-26');
     $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
-    $payload->setAmount('150000.00');
+    $payload->setAmount('125000.00');
     $payload->setBeneficiaryAccountNumber('8220000151');
-    // $payload->setRemark1('Transfer Test');
+    $payload->setRemark1(':');
     // $payload->setRemark2('Online Transfer');
     
     $response = $businessBankingApi->transferFund($payload);
