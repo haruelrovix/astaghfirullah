@@ -26,7 +26,7 @@
     $payload->setAmount('100000.00');
     $payload->setBeneficiaryAccountNumber('8220000151');
     $payload->setRemark1('Transfer Test');
-    $payload->setRemark2('Astagfirullah Transfer');
+    $payload->setRemark2('Online Transfer');
     
     $response = $businessBankingApi->transferFund($payload);
     
