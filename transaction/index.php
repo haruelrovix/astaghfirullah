@@ -19,7 +19,7 @@
 
     $params = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\StatementParams();
     $params->setStartDate('2017-01-01');
-    $params->setEndDate('2017-12-30');
+    $params->setEndDate('2017-07-30');
     
     $response = $businessBankingApi->getStatement('8220000053', $params);
     
