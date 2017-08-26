@@ -21,7 +21,7 @@
     $params->setStartDate('2017-08-20');
     $params->setEndDate('2017-08-26');
     
-    $response = $businessBankingApi->getStatement('8220000053', $params);
+    $response = $businessBankingApi->getStatement('8220000151', $params);
     
     $result = array();
     foreach ($response->getData() as $data) {
