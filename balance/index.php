@@ -17,7 +17,8 @@
     
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
-    $response = $businessBankingApi->getBalance(['8220000053']);
+    $accountNumber = $_GET['account'];
+    $response = $businessBankingApi->getBalance([$accountNumber]);
     
     $result = array();
     foreach ($response->getAccountDetailDataSuccess() as $data) {
