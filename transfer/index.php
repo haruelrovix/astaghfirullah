@@ -1,6 +1,7 @@
 <?php
   require '../application/libraries/bca-finhacks-2017.phar';
 
+  $result = array();
   try {
     // Using the library to do API request
     $builder = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApiConfigBuilder();
@@ -18,13 +19,13 @@
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
     $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
-    $payload->setSourceAccountNumber('8220000053');
-    $payload->setTransactionID('00000004');
-    $payload->setTransactionDate('2017-08-26');
+    $payload->setSourceAccountNumber($_POST['source']);
+    // $payload->setTransactionID('00000004');
+    $payload->setTransactionDate(date('Y-m-d'));
     $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
-    $payload->setAmount('125000.00');
-    $payload->setBeneficiaryAccountNumber('8220000151');
+    $payload->setAmount($_POST['amount']);
+    $payload->setBeneficiaryAccountNumber($_POST['destination']);
     $payload->setRemark1(':');
     // $payload->setRemark2('Online Transfer');
     
@@ -36,12 +37,14 @@
       'ReferenceID'=> $response->getReferenceID(),
       'Status'=> $response->getStatus()
     );
-
-    echo json_encode($result);
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
-    echo $e->getBody()->getErrorCode();
-    echo $e->getBody()->getErrorMessage()->getEnglish();
-    echo $e->getBody()->getErrorMessage()->getIndonesian();
+    $result = array(
+      'ErrorCode' => $e->getBody()->getErrorCode(),
+      'English' => $e->getBody()->getErrorMessage()->getEnglish(),
+      'Indonesian' => $e->getBody()->getErrorMessage()->getIndonesian()
+    );
   }
+  
+  echo json_encode($result);
 ?>
