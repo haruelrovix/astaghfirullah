@@ -19,8 +19,16 @@
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
     $params = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\StatementParams();
-    $params->setStartDate('2017-08-20');
-    $params->setEndDate('2017-08-28');
+    $startDate = $_GET['start'];
+    if(!$startDate) {
+      $startDate = '2017-08-20';
+    }
+    $endDate = $_GET['end'];
+    if(!$endDate) {
+      $endDate = '2017-08-28';
+    }
+    $params->setStartDate($startDate);
+    $params->setEndDate($endDate);
 
     $accountNumber = $_GET['account'];
     $response = $businessBankingApi->getStatement($accountNumber, $params);
