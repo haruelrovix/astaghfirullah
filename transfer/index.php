@@ -20,14 +20,13 @@
 
     $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
     $payload->setSourceAccountNumber($_GET['source']);
-    // $payload->setTransactionID('00000004');
+    $payload->setTransactionID(rand(5,99999999));
     $payload->setTransactionDate(date('Y-m-d'));
     $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
     $payload->setAmount($_GET['amount']);
     $payload->setBeneficiaryAccountNumber($_GET['destination']);
     $payload->setRemark1(':');
-    // $payload->setRemark2('Online Transfer');
     
     $response = $businessBankingApi->transferFund($payload);
     
