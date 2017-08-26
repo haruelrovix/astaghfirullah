@@ -23,23 +23,24 @@
 
     echo "Before calling $response <br>";
     $response = $businessBankingApi->getBalance(['8220000011', '8220000118','1111111111']);
-    echo $response;
+    // echo $response;
 
-    // foreach ($response->getAccountDetailDataSuccess() as $data) {
-    //   $data->getAccountNumber();
-    //   $data->getCurrency();
-    //   $data->getBalance();
-    //   $data->getAvailableBalance();
-    //   $data->getFloatAmount();
-    //   $data->getHoldAmount();
-    //   $data->getPlafon();
-    // }
+    foreach ($response->getAccountDetailDataSuccess() as $data) {
+      echo $data->getAccountNumber().'<br>';
+      echo $data->getCurrency().'<br>';
+      echo $data->getBalance().'<br>';
+      echo $data->getAvailableBalance().'<br>';
+      echo $data->getFloatAmount().'<br>';
+      echo $data->getHoldAmount().'<br>';
+      echo $data->getPlafon().'<br>';
+    }
 
-    // foreach ($response->getAccountDetailDataFailed() as $data) {
-    //   $data->getEnglish();
-    //   $data->getIndonesian();
-    //   $data->getAccountNumber();
-    // }
+    echo '<br>';
+    foreach ($response->getAccountDetailDataFailed() as $data) {
+      echo $data->getEnglish().'<br>';
+      echo $data->getIndonesian().'<br>';
+      echo $data->getAccountNumber().'<br>';
+    }
 
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
