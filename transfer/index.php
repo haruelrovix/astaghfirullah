@@ -44,7 +44,7 @@
       'Receipt' => 'http://182.16.165.88/receipt?transactionId='.$response->getTransactionID()
         .'&transactionDate='.$response->getTransactionDate().'&corporateId=finhacks13'
         .'&source='.$source.'&referenceId='.$response->getReferenceID()
-        .'&destination='.$destination.'&amount='.$amount.'&status='.$status
+        .'&destination='.$destination.'&amount='.$amount.'&status='.$response->getStatus()
     );
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
