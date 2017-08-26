@@ -13,35 +13,29 @@
     $builder->apiSecret('1913f606-dfde-425a-a995-ebe38f20f732');
     $builder->origin('182.16.165.88');
     $builder->corporateID('finhacks13');
-
+    
     $config = $builder->build();
-
+    
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
-    $accountNumber = $_GET['account'];
-    $response = $businessBankingApi->getBalance([$accountNumber]);
-
-    foreach ($response->getAccountDetailDataSuccess() as $data) {
-      array_push($result, array(
-        'AccountNumber' => $data->getAccountNumber(),
-        'Currency' => $data->getCurrency(),
-        'Balance' => $data->getBalance(),
-        'AvailableBalance' => $data->getAvailableBalance(),
-        'FloatAmount' => $data->getFloatAmount(),
-        'HoldAmount' => $data->getHoldAmount(),
-        'Plafon' => $data->getPlafon()
-      ));
-    }
-
-    if (!$result) {
-      foreach ($response->getAccountDetailDataFailed() as $data) {
-        array_push($result, array(
-          'AccountNumber' => $data->getAccountNumber(),
-          'English' => $data->getEnglish(),
-          'Indonesian' => $data->getIndonesian()
-        ));
-      }
-    }
+    $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
+    $payload->setSourceAccountNumber($_GET['source']);
+    $payload->setTransactionID(rand(5,99999999));
+    $payload->setTransactionDate(date('Y-m-d'));
+    $payload->setReferenceID('12345/PO/2017');
+    $payload->setCurrencyCode('IDR');
+    $payload->setAmount($_GET['amount']);
+    $payload->setBeneficiaryAccountNumber($_GET['destination']);
+    $payload->setRemark1(':');
+    
+    $response = $businessBankingApi->transferFund($payload);
+    
+    $result = array(
+      'TransactionID'=> $response->getTransactionID(),
+      'TransactionDate'=> $response->getTransactionDate(),
+      'ReferenceID'=> $response->getReferenceID(),
+      'Status'=> $response->getStatus()
+    );
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
     $result = array(
@@ -50,6 +44,6 @@
       'Indonesian' => $e->getBody()->getErrorMessage()->getIndonesian()
     );
   }
-
+  
   echo json_encode($result);
 ?>

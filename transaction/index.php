@@ -13,35 +13,46 @@
     $builder->apiSecret('1913f606-dfde-425a-a995-ebe38f20f732');
     $builder->origin('182.16.165.88');
     $builder->corporateID('finhacks13');
-
+    
     $config = $builder->build();
-
+    
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
+    $params = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\StatementParams();
+    $startDate = $_GET['start'];
+    if(!$startDate) {
+      $startDate = '2017-08-20';
+    }
+    $endDate = $_GET['end'];
+    if(!$endDate) {
+      $endDate = '2017-08-28';
+    }
+    $params->setStartDate($startDate);
+    $params->setEndDate($endDate);
+
     $accountNumber = $_GET['account'];
-    $response = $businessBankingApi->getBalance([$accountNumber]);
+    $response = $businessBankingApi->getStatement($accountNumber, $params);
 
-    foreach ($response->getAccountDetailDataSuccess() as $data) {
-      array_push($result, array(
-        'AccountNumber' => $data->getAccountNumber(),
-        'Currency' => $data->getCurrency(),
-        'Balance' => $data->getBalance(),
-        'AvailableBalance' => $data->getAvailableBalance(),
-        'FloatAmount' => $data->getFloatAmount(),
-        'HoldAmount' => $data->getHoldAmount(),
-        'Plafon' => $data->getPlafon()
-      ));
+    $transactions = array();
+    foreach ($response->getData() as $data) {
+      $item = array(
+        'TransactionDate' => $data->getTransactionDate(),
+        'BranchCode' => $data->getBranchCode(),
+        'TransactionType' => $data->getTransactionType(),
+        'TransactionAmount' => $data->getTransactionAmount(),
+        'TransactionName' => $data->getTransactionName(),
+        'Trailer' => $data->getTrailer()
+      );
+      array_push($transactions, $item);
     }
 
-    if (!$result) {
-      foreach ($response->getAccountDetailDataFailed() as $data) {
-        array_push($result, array(
-          'AccountNumber' => $data->getAccountNumber(),
-          'English' => $data->getEnglish(),
-          'Indonesian' => $data->getIndonesian()
-        ));
-      }
-    }
+    $result = array(
+      'StartDate' => $response->getStartDate(),
+      'EndDate' => $response->getEndDate(),
+      'Currency' => $response->getCurrency(),
+      'StartBalance' => $response->getStartBalance(),
+      'Data' => $transactions
+    );
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
     $result = array(
