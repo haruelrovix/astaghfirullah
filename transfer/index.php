@@ -18,14 +18,18 @@
     
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
+    $amount = $_GET['amount'];
+    $source = $_GET['source'];
+    $destination = $_GET['destination'];
+
     $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
-    $payload->setSourceAccountNumber($_GET['source']);
+    $payload->setSourceAccountNumber($source);
     $payload->setTransactionID(rand(5,99999999));
     $payload->setTransactionDate(date('Y-m-d'));
     $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
-    $payload->setAmount($_GET['amount']);
-    $payload->setBeneficiaryAccountNumber($_GET['destination']);
+    $payload->setAmount($amount);
+    $payload->setBeneficiaryAccountNumber($destination);
     $payload->setRemark1(':');
     
     $response = $businessBankingApi->transferFund($payload);
@@ -34,7 +38,11 @@
       'TransactionID'=> $response->getTransactionID(),
       'TransactionDate'=> $response->getTransactionDate(),
       'ReferenceID'=> $response->getReferenceID(),
-      'Status'=> $response->getStatus()
+      'Status'=> $response->getStatus(),
+      'Receipt' => 'http://182.16.165.88/receipt?transactionId='.$response->getTransactionID()
+        .'&transactionDate='.$response->getTransactionDate().'&corporateId=finhacks13'
+        .'&source='.$source.'&referenceId='.$response->getReferenceID()
+        .'&destination='.$destination.'&amount='.$amount.'&status='.$status
     );
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
