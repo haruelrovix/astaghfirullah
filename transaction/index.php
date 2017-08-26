@@ -17,18 +17,21 @@
     
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
-    $response = $businessBankingApi->getBalance(['8220000053']);
+    $params = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\StatementParams();
+    $params->setStartDate('2017-01-01');
+    $params->setEndDate('2017-12-30');
+    
+    $response = $businessBankingApi->getStatement('8220000053', $params);
     
     $result = array();
-    foreach ($response->getAccountDetailDataSuccess() as $data) {
+    foreach ($response->getData() as $data) {
       $item = array(
-        'AccountNumber' => $data->getAccountNumber(),
-        'Currency' => $data->getCurrency(),
-        'Balance' => $data->getBalance(),
-        'AvailableBalance' => $data->getAvailableBalance(),
-        'FloatAmount' => $data->getFloatAmount(),
-        'HoldAmount' => $data->getHoldAmount(),
-        'Plafon' => $data->getPlafon()
+        'TransactionDate' => $data->getTransactionDate(),
+        'BranchCode' => $data->getBranchCode(),
+        'TransactionType' => $data->getTransactionType(),
+        'TransactionAmount' => $data->getTransactionAmount(),
+        'TransactionName' => $data->getTransactionName(),
+        'Trailer' => $data->getTrailer()
       );
       array_push($result, $item);
     }
