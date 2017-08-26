@@ -52,3 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+/*
+| -------------------------------------------------------------------------
+| BCA QuickType REST API Routes
+| -------------------------------------------------------------------------
+*/
+$route['api/balance/(:num)'] = 'api/balance/8220000011'; // Example 8220000011

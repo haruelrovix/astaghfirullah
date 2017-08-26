@@ -22,13 +22,13 @@
     $result = array();
     foreach ($response->getAccountDetailDataSuccess() as $data) {
       $item = array(
-	'AccountNumber' => $data->getAccountNumber(),
-	'Currency' => $data->getCurrency(),
-	'Balance' => $data->getBalance(),
-	'AvailableBalance' => $data->getAvailableBalance(),
-	'FloatAmount' => $data->getFloatAmount(),
-	'HoldAmount' => $data->getHoldAmount(),
-	'Plafon' => $data->getPlafon()
+        'AccountNumber' => $data->getAccountNumber(),
+        'Currency' => $data->getCurrency(),
+        'Balance' => $data->getBalance(),
+        'AvailableBalance' => $data->getAvailableBalance(),
+        'FloatAmount' => $data->getFloatAmount(),
+        'HoldAmount' => $data->getHoldAmount(),
+        'Plafon' => $data->getPlafon()
       );
       array_push($result, $item);
     }
