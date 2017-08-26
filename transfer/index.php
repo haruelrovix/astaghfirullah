@@ -21,12 +21,12 @@
     $payload->setSourceAccountNumber('8220000053');
     $payload->setTransactionID('00000001');
     $payload->setTransactionDate('2017-08-21');
-    $payload->setReferenceID('12345/ISTGHFR/2017');
+    $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
     $payload->setAmount('100000.00');
     $payload->setBeneficiaryAccountNumber('8220000151');
-    $payload->setRemark1('Astagfirullah, Transfer Test');
-    $payload->setRemark2('Online Transfer');
+    $payload->setRemark1('Transfer Test');
+    $payload->setRemark2('Astagfirullah Transfer');
     
     $response = $businessBankingApi->transferFund($payload);
     
