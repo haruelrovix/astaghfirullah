@@ -1,6 +1,7 @@
 <?php
   require '../application/libraries/bca-finhacks-2017.phar';
 
+  $result = array();
   try {
     // Using the library to do API request
     $builder = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApiConfigBuilder();
@@ -12,17 +13,16 @@
     $builder->apiSecret('1913f606-dfde-425a-a995-ebe38f20f732');
     $builder->origin('182.16.165.88');
     $builder->corporateID('finhacks13');
-    
+
     $config = $builder->build();
-    
+
     $businessBankingApi = new \Bca\Api\Sdk\BusinessBanking\BusinessBankingApi($config);
 
     $accountNumber = $_GET['account'];
     $response = $businessBankingApi->getBalance([$accountNumber]);
-    
-    $result = array();
+
     foreach ($response->getAccountDetailDataSuccess() as $data) {
-      $item = array(
+      array_push($result, array(
         'AccountNumber' => $data->getAccountNumber(),
         'Currency' => $data->getCurrency(),
         'Balance' => $data->getBalance(),
@@ -30,15 +30,26 @@
         'FloatAmount' => $data->getFloatAmount(),
         'HoldAmount' => $data->getHoldAmount(),
         'Plafon' => $data->getPlafon()
-      );
-      array_push($result, $item);
+      ));
     }
 
-    echo json_encode($result);
+    if (!$result) {
+      foreach ($response->getAccountDetailDataFailed() as $data) {
+        array_push($result, array(
+          'AccountNumber' => $data->getAccountNumber(),
+          'English' => $data->getEnglish(),
+          'Indonesian' => $data->getIndonesian()
+        ));
+      }
+    }
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
     // the API response with non 2xx http status code
-    echo $e->getBody()->getErrorCode();
-    echo $e->getBody()->getErrorMessage()->getEnglish();
-    echo $e->getBody()->getErrorMessage()->getIndonesian();
+    array_push($result, array(
+      'ErrorCode' => $e->getBody()->getErrorCode(),
+      'English' => $e->getBody()->getErrorMessage()->getEnglish(),
+      'Indonesian' => $e->getBody()->getErrorMessage()->getIndonesian()
+    ));
   }
+
+  echo json_encode($result);
 ?>
