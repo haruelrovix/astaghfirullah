@@ -20,10 +20,10 @@
     $params = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\StatementParams();
     $params->setStartDate('2017-08-20');
     $params->setEndDate('2017-08-26');
-    
-    $response = $businessBankingApi->getStatement('8220000151', $params);
-    
-    $result = array();
+
+    $response = $businessBankingApi->getStatement('8220000053', $params);
+
+    $transactions = array();
     foreach ($response->getData() as $data) {
       $item = array(
         'TransactionDate' => $data->getTransactionDate(),
@@ -33,8 +33,16 @@
         'TransactionName' => $data->getTransactionName(),
         'Trailer' => $data->getTrailer()
       );
-      array_push($result, $item);
+      array_push($transactions, $item);
     }
+
+    $result = array(
+      'StartDate' => $response->getStartDate(),
+      'EndDate' => $response->getEndDate(),
+      'Currency' => $response->getCurrency(),
+      'StartBalance' => $response->getStartBalance(),
+      'Data' => $transactions
+    );
 
     echo json_encode($result);
   } catch (\Bca\Api\Sdk\Common\Exceptions\ApiRequestException $e) {
