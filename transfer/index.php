@@ -19,7 +19,7 @@
 
     $payload = new \Bca\Api\Sdk\BusinessBanking\Models\Requests\TransferPayload();
     $payload->setSourceAccountNumber('8220000053');
-    $payload->setTransactionID('00000001');
+    $payload->setTransactionID('00000002');
     $payload->setTransactionDate('2017-08-26');
     $payload->setReferenceID('12345/PO/2017');
     $payload->setCurrencyCode('IDR');
