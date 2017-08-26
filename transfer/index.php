@@ -1,6 +1,8 @@
 <?php
   require '../libraries/bca-finhacks-2017.phar';
 
+  date_default_timezone_set('Asia/Jakarta');
+
   $result = array();
   try {
     // Using the library to do API request
