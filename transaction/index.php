@@ -45,6 +45,7 @@
       );
       array_push($transactions, $item);
     }
+    $transactions = array_reverse($transactions);
 
     $result = array(
       'StartDate' => $response->getStartDate(),
